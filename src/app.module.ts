@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { EmpresaModule } from './empresa/empresa.module';
 
 @Module({
   imports: [
@@ -13,11 +14,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: process.env.DB_USER_NAME,
       password: process.env.DB_PASSWORD,
       autoLoadEntities:true,
-      synchronize:true,
+      // synchronize:true,
       options: {
         encrypt: false, // Disable SSL/TLS
       },
-    })
+    }),
+    EmpresaModule,
+ 
+  
     
   ],
 
