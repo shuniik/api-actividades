@@ -7,6 +7,7 @@ export class CreateEmpresaDto {
     // @IsString()
     // id_empresa: string;
 
+
     @IsIn(['GS','GLOBALPRODUCTS','GLOBALLABS','LABORATORIO','GOCISA','SILICE','CANTERA','KING AUDIO'])
     empresa:string;
 }
