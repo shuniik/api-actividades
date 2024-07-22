@@ -1,7 +1,12 @@
-import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { CreateDtoUser,LoginUserDto } from './dto/';
+import { GetUser, RawHeaders } from './decorators/index';
+import { Usuarios } from './entities/user.entity';
+
+import { ValidRoles } from './interfaces/valid-roles';
+import { Auth } from './decorators/auth.decorator';
 
 
 
@@ -24,9 +29,30 @@ export class AuthController {
 
   @Get('private')
   @UseGuards(AuthGuard())
-  testingPrivateRoute(){
+  testingPrivateRoute(
+    // @Req() request: Express.Request
+    @GetUser() usuario: Usuarios,
+    @RawHeaders() rawHeaders:string[]
+  ){
+    // console.log({user: request.user});
+    console.log(usuario);
     return{ok:true,
-      messge:"Holamundo private"
+      messge:"Holamundo private",
+      usuario,
+      rawHeaders
+    }
+  }
+  // @SetMetadata('roles',['user'])
+  
+  @Get('private2')
+  @Auth(ValidRoles.user,ValidRoles.superUser)
+  privateReoute2(
+    @GetUser() usuario:Usuarios
+  ){
+
+    return {
+      ok:true,
+      usuario
     }
   }
 

@@ -2,6 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from
 import { EmpresaService } from './empresa.service';
 import { CreateEmpresaDto } from './dto/create-empresa.dto';
 import { UpdateEmpresaDto } from './dto/update-empresa.dto';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { ValidRoles } from 'src/auth/interfaces/valid-roles';
 
 @Controller('empresa')
 export class EmpresaController {
@@ -27,6 +29,7 @@ export class EmpresaController {
     return this.empresaService.update(+id, updateEmpresaDto);
   }
 
+  @Auth(ValidRoles.user,ValidRoles.superUser)
   @Delete(':id')
   remove(@Param('id',ParseUUIDPipe) id: string) {
     return this.empresaService.remove(id);
